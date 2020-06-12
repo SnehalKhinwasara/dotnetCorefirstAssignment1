@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -65,5 +66,45 @@ namespace EFCoreAppMigration
             
         }
 
+        public async Task<bool> CreateBulkCategoryAsync(List<Category> categories)
+        {
+            bool insereted = false;
+            foreach (var cat in categories)
+            {
+                var res = await ctx.Categories.AddAsync(cat);
+                await ctx.SaveChangesAsync();
+               
+            }
+            insereted = true;
+                return insereted;
+        }
+        public async Task<bool> CreateBulkProductAsync(List<Product> products)
+        {
+            bool insereted = false;
+            foreach (var prod in products)
+            {
+                var category = ctx.Categories.FirstOrDefault(q => q.CategoryRowId == prod.CategoryRowId);
+                if (category!=null &&prod.Price >= category.BasePrice)
+                {
+                    var res = await ctx.Products.AddAsync(prod);
+                    await ctx.SaveChangesAsync();
+                    insereted = true;
+                }
+
+            }
+          
+            return insereted;
+        }
+
+        public async Task<List<Product>> GetProductListByCategoryNameAsync(string CategoryName)
+        {
+            var categoryrowid = ctx.Categories.FirstOrDefault(cat => cat.CategoryName == CategoryName).CategoryRowId;
+         
+            if (categoryrowid > 0)
+            {
+                return await ctx.Products.Where(prd => prd.CategoryRowId == categoryrowid).ToListAsync();
+            }
+            return null;
+        }
     }
 }

@@ -19,7 +19,7 @@ namespace EFCore_App.Models
         public DbSet<Person> Persons { get; set; }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer("Server=.;Initial Catalog=VodafoneDb; Integrated Security=SSPI");
+            optionsBuilder.UseSqlServer("Server=DESKTOP-MVAORKB;Initial Catalog=VodafoneDb; Integrated Security=SSPI");
         }
 
         /// <summary>

@@ -16,7 +16,7 @@ namespace EFCoreAppMigration
         }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer("Server=.;Initial Catalog=VodafoneDb; Integrated Security=SSPI");
+            optionsBuilder.UseSqlServer("Server=DESKTOP-MVAORKB;Initial Catalog=VodafoneDb; Integrated Security=SSPI");
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
